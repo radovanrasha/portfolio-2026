@@ -1,0 +1,18 @@
+# Production compose file — lives on the VPS and is refreshed on every deploy.
+# It does NOT build anything: it pulls the prebuilt image from GHCR (the CI
+# pipeline builds & pushes it). The container always listens on 3000 inside;
+# we publish it ONLY to localhost so the public can't hit it directly —
+# nginx on the host reverse-proxies your domain to 127.0.0.1:${HOST_PORT}.
+#
+# Mapping is host:container — left = the port exposed on the VPS (2000),
+# right = the fixed internal port the Next.js server listens on (3000).
+services:
+  web:
+    image: ghcr.io/radovanrasha/portfolio-2026:latest
+    container_name: portfolio-2026
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${HOST_PORT:-2000}:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
