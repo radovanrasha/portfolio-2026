@@ -170,9 +170,9 @@ export const CONTACT: ContactLink[] = [
 ];
 
 export const SKILL_CATS = [
-  { t: 'Frontend', n: 'interfaces' },
-  { t: 'Backend', n: 'services' },
-  { t: 'Tools', n: 'infra & ops' },
+  { t: 'Frontend', n: 'interfaces', row: 1 },
+  { t: 'Backend', n: 'services', row: 3 },
+  { t: 'Tools', n: 'infra & ops', row: 5 },
 ];
 
 export interface SkillItem {

@@ -1,7 +1,7 @@
 'use client';
 
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
-import { Squares } from './BoardParts';
 import { cell } from './BoardParts';
 import { ICONS } from '@/lib/skill-icons';
 import {
@@ -12,8 +12,6 @@ import {
   PROJECTS,
   EDUCATION,
   CONTACT,
-  SKILL_CATS,
-  SKILLS,
   type SkillItem,
 } from '@/lib/portfolio';
 
@@ -209,9 +207,15 @@ export function ContactPage() {
   );
 }
 
-function SkillTile({ s }: { s: SkillItem }) {
+// One skill icon, positioned on the board by [row, col]. Rendered on the home
+// board itself (see ChessApp's skills mode) — not in a separate page anymore.
+// `index` drives the staggered entrance delay via the `--i` custom property.
+export function SkillTile({ s, index = 0 }: { s: SkillItem; index?: number }) {
   return (
-    <div className="skill-tile" style={cell(s.pos[0], s.pos[1])}>
+    <div
+      className="skill-tile"
+      style={{ ...cell(s.pos[0], s.pos[1]), ['--i' as string]: index } as CSSProperties}
+    >
       <div className="skill-tip">
         <div className="nm">{s.name}</div>
       </div>
@@ -219,48 +223,6 @@ function SkillTile({ s }: { s: SkillItem }) {
         <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
           <path d={ICONS[s.icon]} />
         </svg>
-      </div>
-    </div>
-  );
-}
-
-export function SkillsPage() {
-  return (
-    <div className="page" style={{ paddingTop: 'clamp(56px,8vh,96px)', textAlign: 'center' }}>
-      <div className="masthead reveal" style={{ marginBottom: 8 }}>
-        <div className="role" style={{ paddingLeft: '.42em' }}>
-          The Knight · jumps the board
-        </div>
-        <div className="name" style={{ marginTop: 8 }}>
-          Skills
-        </div>
-        <p
-          className="sub"
-          style={{ margin: '12px auto 0', maxWidth: '46ch', color: 'var(--muted)', lineHeight: 1.6 }}
-        >
-          The whole arsenal, set out by rank. Hover a square to light it up.
-        </p>
-      </div>
-
-      <div className="skills-board-wrap reveal d1" style={{ justifyContent: 'center', marginTop: 24 }}>
-        <div className="cat-rail">
-          {SKILL_CATS.map((c, i) => (
-            <div className="cat" key={i}>
-              <span className="t">{c.t}</span>
-              <span className="n">{c.n}</span>
-            </div>
-          ))}
-        </div>
-        <div className="board-3d">
-          <div className="board-frame">
-            <div className="board">
-              <Squares />
-              {SKILLS.map((s, i) => (
-                <SkillTile key={i} s={s} />
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

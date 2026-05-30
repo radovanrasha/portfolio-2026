@@ -182,6 +182,7 @@ body::after {
   transition:
     left .55s cubic-bezier(.34,.02,.2,1),
     top  .55s cubic-bezier(.34,.02,.2,1),
+    opacity .4s ease,
     filter .25s;
   -webkit-tap-highlight-color: transparent;
 }
@@ -269,7 +270,10 @@ body::after {
 .legend {
   position: fixed; right: clamp(18px,3vw,40px); top: 50%; transform: translateY(-50%);
   display: flex; flex-direction: column; gap: 12px; z-index: 7;
+  transition: opacity .3s ease;
 }
+/* hidden while the skills view owns the board */
+.legend.hidden { opacity: 0; pointer-events: none; }
 .legend .row {
   display: flex; align-items: center; gap: 10px; justify-content: flex-end;
   font-family: var(--mono); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
@@ -448,25 +452,40 @@ body::after {
 .clink .arrow { color: var(--muted); transition: transform .25s, color .2s; font-size: 18px; }
 
 /* ============================================================
-   Skills board page
+   Skills view — rendered ON the home board (pieces fade out,
+   icons fade in). No separate page / overlay.
    ============================================================ */
-.skills-board-wrap { display:flex; gap: clamp(20px,4vw,56px); align-items: center; }
-.skills-board-wrap .board-frame { --size: min(58vmin, 520px); }
-.cat-rail { display:flex; flex-direction: column; gap: 0; align-self: stretch; padding: 3.5% 0; }
-.cat-rail .cat {
-  flex: 1; display:flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 0;
-  font-family: var(--mono); text-align: right; padding-right: 6px;
+
+/* navigational pieces dissolve when the skills view takes over */
+.piece.faded { opacity: 0; pointer-events: none; }
+
+/* the icon layer sits over the board; hidden until skills mode is on */
+.skill-layer {
+  position: absolute; inset: 0; z-index: 4;
+  opacity: 0; pointer-events: none;
+  transition: opacity .4s ease;
 }
-.cat-rail .cat .t { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent-soft); }
-.cat-rail .cat .n { font-size: 10px; letter-spacing: .14em; color: var(--muted); }
-/* keep the category rail on mobile (just compact) so groups stay readable */
-@media (max-width: 760px) {
-  .skills-board-wrap { gap: 8px; }
-  .skills-board-wrap .board-frame { --size: min(78vw, 420px); }
-  .cat-rail { padding: 3.5% 0; }
-  .cat-rail .cat { padding-right: 4px; }
-  .cat-rail .cat .t { font-size: 9px; letter-spacing: .08em; }
-  .cat-rail .cat .n { display: none; }
+.skill-layer.on { opacity: 1; pointer-events: auto; }
+
+/* category labels float just left of the board, aligned to their rank */
+.skill-cat {
+  position: absolute; width: 12.5%; height: 12.5%;
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
+  text-align: right; transform: translateX(-100%); padding-right: 6.5%;
+  font-family: var(--mono); pointer-events: none;
+}
+.skill-cat .t { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent-soft); white-space: nowrap; }
+.skill-cat .n { font-size: 10px; letter-spacing: .14em; color: var(--muted); white-space: nowrap; margin-top: 3px; }
+@media (max-width: 880px) { .skill-cat { display: none; } }
+
+/* staggered pop-in for each icon when the view opens */
+.skill-layer.on .skill-tile {
+  animation: skillIn .5s cubic-bezier(.34,1.56,.5,1) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms + .14s);
+}
+@keyframes skillIn {
+  from { opacity: 0; transform: scale(.3); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 .skill-tile {
@@ -499,6 +518,3 @@ body::after {
 .skill-tile:hover .skill-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
 .skill-tip .nm { font-family: var(--display); font-size: 16px; color: var(--ink); }
 .skill-tip .lv { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-soft); margin-top:2px; }
-
-/* responsive masthead spacing for skills */
-.skills-scene .masthead { margin-bottom: clamp(24px,4vh,44px); }

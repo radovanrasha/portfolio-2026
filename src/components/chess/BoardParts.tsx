@@ -26,16 +26,18 @@ interface PieceProps {
   color: 'white' | 'black';
   selected?: boolean;
   captured?: boolean;
+  faded?: boolean;
   pos: Coord;
   onClick?: (page: PageDef) => void;
   onHover?: (page: PageDef | null) => void;
 }
 
-export function Piece({ page, glyph, color, selected, captured, pos, onClick, onHover }: PieceProps) {
+export function Piece({ page, glyph, color, selected, captured, faded, pos, onClick, onHover }: PieceProps) {
   const cls = ['piece'];
   if (!onClick) cls.push('inert');
   if (selected) cls.push('selected');
   if (captured) cls.push('captured');
+  if (faded) cls.push('faded');
   return (
     <div
       className={cls.join(' ')}
