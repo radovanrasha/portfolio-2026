@@ -11,9 +11,19 @@ import {
   EXPERIENCE,
   PROJECTS,
   EDUCATION,
+  HOBBIES,
   CONTACT,
+  type HobbyItem,
   type SkillItem,
 } from '@/lib/portfolio';
+
+// 24×24 marks for the non-chess hobbies (chess uses the knight glyph)
+const HOBBY_ICONS: Record<Exclude<HobbyItem['icon'], 'chess'>, string> = {
+  running:
+    'M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z',
+  gaming:
+    'M21.58 16.09l-1.09-7.66C20.21 6.46 18.52 5 16.53 5H7.47C5.48 5 3.79 6.46 3.51 8.43l-1.09 7.66C2.2 17.63 3.39 19 4.94 19c.68 0 1.32-.27 1.8-.75L9 16h6l2.25 2.25c.48.48 1.13.75 1.8.75 1.56 0 2.75-1.37 2.53-2.91zM11 11H9v2H8v-2H6v-1h2V8h1v2h2v1zm4-1c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z',
+};
 
 function PageHead({
   glyph,
@@ -80,7 +90,7 @@ export function ExperiencePage() {
         glyph={GLYPH.rook}
         eyebrow="The Rook · holds the file"
         title="Experience"
-        sub="Straight lines, solid ground — where I’ve been holding the file."
+        sub="Straight lines, solid ground - where I’ve been holding the file."
       />
       <div className="timeline reveal d1">
         {EXPERIENCE.map((e, i) => (
@@ -107,7 +117,7 @@ export function ProjectsPage() {
         glyph={GLYPH.queen}
         eyebrow="The Queen · most range"
         title="Projects"
-        sub="The piece that moves in every direction — selected work, live on the web."
+        sub="The piece that moves in every direction - selected work, live on the web."
       />
       <div className="proj-grid">
         {PROJECTS.map((p, i) => (
@@ -120,7 +130,7 @@ export function ProjectsPage() {
           >
             <div className="thumb">
               <span className="pc">{p.glyph}</span>
-              <span className="ph">[ {p.name.toLowerCase()} — live ↗ ]</span>
+              <span className="ph">[ {p.name.toLowerCase()} - live ↗ ]</span>
             </div>
             <div className="body">
               <h3>{p.name}</h3>
@@ -146,7 +156,7 @@ export function EducationPage() {
         glyph={GLYPH.bishop}
         eyebrow="The Bishop · the long diagonal"
         title="Education"
-        sub="Study, competitions and the habit of learning — the long diagonal."
+        sub="Study, competitions and the habit of learning - the long diagonal."
       />
       <div className="edu-grid reveal d1">
         {EDUCATION.map((e, i) => (
@@ -157,6 +167,42 @@ export function EducationPage() {
               <div className="inst">{e.inst}</div>
               <p>{e.desc}</p>
             </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function HobbiesPage() {
+  return (
+    <div className="page">
+      <PageHead
+        glyph={GLYPH.pawn}
+        eyebrow="The h-Pawn · the long push"
+        title="Hobbies"
+        sub="Two squares at once - what keeps me moving when I’m off the clock."
+      />
+      <div className="hobby-grid">
+        {HOBBIES.map((h, i) => (
+          <div className={'hobby reveal d' + Math.min(i + 1, 5)} key={h.name}>
+            <div className="hobby-mark" aria-hidden="true">
+              {h.icon === 'chess' ? (
+                <span className="hg">{GLYPH.knight}</span>
+              ) : (
+                <svg viewBox="0 0 24 24">
+                  <path d={HOBBY_ICONS[h.icon]} />
+                </svg>
+              )}
+            </div>
+            <h3>{h.name}</h3>
+            <div className="tagline">{h.tagline}</div>
+            <p>{h.desc}</p>
+            {h.href && (
+              <a className="hobby-link" href={h.href} target="_blank" rel="noopener noreferrer">
+                {h.linkLabel} <span className="arrow">↗</span>
+              </a>
+            )}
           </div>
         ))}
       </div>
@@ -199,7 +245,7 @@ export function ContactPage() {
           </div>
           <p style={{ color: 'var(--muted)', lineHeight: 1.7, fontSize: 16 }}>
             I’m open to full-stack roles, contract work and the occasional interesting puzzle. The
-            fastest way to reach me is email — I usually reply within a day.
+            fastest way to reach me is email - I usually reply within a day.
           </p>
         </div>
       </div>

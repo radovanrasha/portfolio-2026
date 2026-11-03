@@ -21,7 +21,7 @@ folder's `styles.css` + `screenshots/` as the source of truth.
   overlay, the right-side legend, Esc/Arrow keyboard handling.
 - `src/components/chess/BoardParts.tsx` — `Squares`, `Piece`, `TargetHint`, `OriginGlow`,
   `TargetClick`.
-- `src/components/chess/Pages.tsx` — the six section panels + the Skills sub-board.
+- `src/components/chess/Pages.tsx` — the section panels + the Skills sub-board.
 - `src/lib/portfolio.ts` — ALL content + the board layout (`PAGES`, `DECOR`, `SKILLS`, …).
 
 ## How the board works
@@ -29,9 +29,10 @@ folder's `styles.css` + `screenshots/` as the source of truth.
 - **No chess library, no SVG pieces** — pieces are Unicode glyphs (♚♛♜♝♞♟) styled via CSS
   (`globals.css`). The board is a CSS Grid; pieces/tiles are absolutely positioned by
   `[row, col]` via the `cell()` helper.
-- The position in `PAGES` is a real legal "white to move": 6 white navigational pieces,
+- The position in `PAGES` is a real legal "white to move": 7 white navigational pieces,
   one decorative black king, and black "victims" only on the two capture targets
-  (Projects = queen×knight, Skills = knight×pawn). Each white piece has exactly one legal
+  (Projects = queen×knight, Skills = knight×pawn). Black pieces are inert (no hover/click);
+  a capture is completed through `TargetClick` on the lit square. Each white piece has exactly one legal
   move that opens its page. **Do not change coordinates casually** — keep it legal.
 - Move flow: click a white piece → its destination square lights up (ring + label) →
   click the lit square → piece glides (CSS transition, ~560ms) → overlay opens.
@@ -50,4 +51,4 @@ folder's `styles.css` + `screenshots/` as the source of truth.
 - Entire UI is in **English**. No Serbian text anywhere.
 - Owner is **Radovan Ivanović** (NOT Rašković). All personal data comes from the old
   portfolio at `../radovanrasha-portfolio/src/` — never invent personal info.
-- The design has 6 sections; Courses + the BizKod competition are folded into **Education**.
+- The design has 6 sections plus **Hobbies** (the h-pawn, h2–h4); Courses + the BizKod competition are folded into **Education**.

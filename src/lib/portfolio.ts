@@ -1,6 +1,6 @@
 /* portfolio.ts — real content (from radovanrasha-portfolio) mapped to the design's shape */
 
-export type PageId = 'about' | 'experience' | 'projects' | 'skills' | 'education' | 'contact';
+export type PageId = 'about' | 'experience' | 'projects' | 'skills' | 'education' | 'hobbies' | 'contact';
 export type Coord = [number, number]; // [row, col], 0 = top/left
 
 // Unicode filled chess glyphs
@@ -22,14 +22,15 @@ export interface PageDef {
   to: Coord;
 }
 
-// Six WHITE navigational pieces — legal "white to move" position (kept exactly
-// from the design). Each has one legal move (quiet or capture) that opens a page.
+// Seven WHITE navigational pieces — legal "white to move" position (kept from
+// the design, plus the h-pawn). Each has one legal move (quiet or capture) that opens a page.
 export const PAGES: PageDef[] = [
   { id: 'about',      glyph: GLYPH.king,   victim: null,         label: 'About',      from: [7, 1], to: [6, 1] },
   { id: 'experience', glyph: GLYPH.rook,   victim: null,         label: 'Experience', from: [7, 7], to: [7, 4] },
   { id: 'projects',   glyph: GLYPH.queen,  victim: GLYPH.knight, label: 'Projects',   from: [6, 4], to: [3, 4] },
   { id: 'skills',     glyph: GLYPH.knight, victim: GLYPH.pawn,   label: 'Skills',     from: [6, 6], to: [4, 5] },
   { id: 'education',  glyph: GLYPH.bishop, victim: null,         label: 'Education',  from: [5, 0], to: [2, 3] },
+  { id: 'hobbies',    glyph: GLYPH.pawn,   victim: null,         label: 'Hobbies',    from: [6, 7], to: [4, 7] }, // h2–h4
   { id: 'contact',    glyph: GLYPH.pawn,   victim: null,         label: 'Contact',    from: [6, 2], to: [5, 2] },
 ];
 
@@ -39,14 +40,14 @@ export const DECOR: { glyph: string; pos: Coord }[] = [{ glyph: GLYPH.king, pos:
 export const PROFILE = {
   name: 'Radovan Ivanović',
   role: 'Full-Stack Developer',
-  blurb: 'I build web apps end to end — from Node and MongoDB APIs to React interfaces that feel effortless.',
+  blurb: 'I build web apps end to end - from Node and MongoDB APIs to React interfaces that feel effortless.',
 };
 
 export const ABOUT = {
   paras: [
     'I’m a full-stack JavaScript developer based in Subotica, Serbia, with 4+ years of professional experience. My journey began in economics and commerce, followed by specialized studies in Business Informatics at the University of Economics in Subotica.',
     'My core is backend development with Node.js, Express and MongoDB, paired with frontend work in React and Ant Design. I also work with NestJS, TypeScript, SQL, and Linux VPS servers behind Nginx.',
-    'I’ve sharpened my craft through advanced courses, coding competitions, and a steady stream of personal and professional projects — and I care about building efficient, scalable solutions that hold up in production.',
+    'I’ve sharpened my craft through advanced courses, coding competitions, and a steady stream of personal and professional projects - and I care about building efficient, scalable solutions that hold up in production.',
   ],
   facts: [
     { k: 'Based in', v: '<b>Subotica</b>, Serbia' },
@@ -66,7 +67,7 @@ export interface ExperienceItem {
 
 export const EXPERIENCE: ExperienceItem[] = [
   {
-    when: 'July 2022 — Present',
+    when: 'July 2022 - Present',
     role: 'Full-Stack Developer',
     org: '<b>Concordsoft Solutions</b>',
     points: [
@@ -126,12 +127,12 @@ export const EDUCATION: EducationItem[] = [
   {
     yr: 'Degree',
     title: 'Business Informatics',
-    inst: 'University of Economics — Subotica',
-    desc: 'A foundation bridging economics and software — where the move from commerce into development began.',
+    inst: 'University of Economics - Subotica',
+    desc: 'A foundation bridging economics and software - where the move from commerce into development began.',
   },
   {
     yr: '2023',
-    title: 'BizKod v7.0 Hackathon — 3rd place',
+    title: 'BizKod v7.0 Hackathon - 3rd place',
     inst: 'Inspira Grupa',
     desc: 'A 24-hour student competition. Led backend development for a mobile app built with React Native, Node.js and MongoDB.',
   },
@@ -139,7 +140,7 @@ export const EDUCATION: EducationItem[] = [
     yr: 'Udemy',
     title: 'The Complete Node.js Developer Course',
     inst: 'Andrew Mead',
-    desc: 'Node.js, Express, MongoDB and REST APIs — async programming, Socket.IO, authentication and deployment.',
+    desc: 'Node.js, Express, MongoDB and REST APIs - async programming, Socket.IO, authentication and deployment.',
   },
   {
     yr: 'Udemy',
@@ -149,9 +150,41 @@ export const EDUCATION: EducationItem[] = [
   },
   {
     yr: 'Udemy',
-    title: 'MongoDB — The Complete Developer’s Guide',
+    title: 'MongoDB - The Complete Developer’s Guide',
     inst: 'Maximilian Schwarzmüller',
     desc: 'NoSQL data modeling, CRUD, aggregation pipelines and schema design for high-performance apps.',
+  },
+];
+
+export interface HobbyItem {
+  icon: 'chess' | 'running' | 'gaming';
+  name: string;
+  tagline: string;
+  desc: string;
+  href?: string;
+  linkLabel?: string;
+}
+
+export const HOBBIES: HobbyItem[] = [
+  {
+    icon: 'chess',
+    name: 'Chess',
+    tagline: 'The game behind this board',
+    desc: 'A game I never get tired of - calm thinking, sharp tactics, and always one more game. It’s also why this portfolio is a chessboard.',
+    href: 'https://www.chess.com/member/radovanrasha',
+    linkLabel: 'Play me on Chess.com',
+  },
+  {
+    icon: 'running',
+    name: 'Running',
+    tagline: 'Away from the screen',
+    desc: 'Kilometres that clear the head. Quiet, far from everything - just the calm I need.',
+  },
+  {
+    icon: 'gaming',
+    name: 'Gaming',
+    tagline: 'How I unwind',
+    desc: 'My favourite way to switch off after a long day - from quick competitive matches to slower, story-driven games.',
   },
 ];
 

@@ -21,9 +21,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Radovan Ivanović — Full-Stack Developer',
+  title: 'Radovan Ivanović - Full-Stack Developer',
   description:
-    'Full-stack JavaScript developer. A portfolio you play like a game of chess — make your move.',
+    'Full-stack JavaScript developer. A portfolio you play like a game of chess - make your move.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

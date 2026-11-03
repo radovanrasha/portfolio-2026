@@ -75,7 +75,9 @@ export function OriginGlow({ page, show }: { page: PageDef | null; show: boolean
   return <div className={'sq-glow ' + (show ? 'show' : '')} style={cell(page.from[0], page.from[1])} />;
 }
 
-// invisible clickable overlay on the destination so the user can "complete the move"
+// invisible clickable overlay on the destination so the user can "complete the move".
+// Sits above hovered pieces (z 6): a lifted/bobbing glyph overhangs the square above
+// it and would otherwise swallow the click.
 export function TargetClick({ page, onClick }: { page: PageDef; onClick: (p: PageDef) => void }) {
   return (
     <div
@@ -85,7 +87,7 @@ export function TargetClick({ page, onClick }: { page: PageDef; onClick: (p: Pag
         width: '12.5%',
         height: '12.5%',
         cursor: 'pointer',
-        zIndex: 5,
+        zIndex: 7,
         ...cell(page.to[0], page.to[1]),
       }}
       onClick={(e) => {

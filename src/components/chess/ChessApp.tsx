@@ -16,6 +16,7 @@ import {
   ExperiencePage,
   ProjectsPage,
   EducationPage,
+  HobbiesPage,
   ContactPage,
   SkillTile,
 } from './Pages';
@@ -26,6 +27,7 @@ const PAGE_COMP: Partial<Record<PageId, ComponentType>> = {
   experience: ExperiencePage,
   projects: ProjectsPage,
   education: EducationPage,
+  hobbies: HobbiesPage,
   contact: ContactPage,
 };
 
@@ -74,10 +76,6 @@ export default function ChessApp() {
       }
     }, MOVE_MS);
     window.setTimeout(() => setMovingId(null), MOVE_MS + 60);
-  };
-  const onVictimClick = (page: PageDef) => {
-    if (busy || movingId) return;
-    if (selected === page.id) onTargetClick(page);
   };
   const selectFromLegend = (page: PageDef) => {
     if (busy) return;
@@ -133,7 +131,7 @@ export default function ChessApp() {
     ''
   ) : skills ? (
     <span>
-      The Knight’s arsenal — <b>hover</b> a square to light it up
+      The Knight’s arsenal - <b>hover</b> a square to light it up
     </span>
   ) : selected && selPage ? (
     <span>
@@ -141,7 +139,7 @@ export default function ChessApp() {
     </span>
   ) : hovered && hoverPage ? (
     <span>
-      <b>{hoverPage.label}</b> — click the piece, then its lit square
+      <b>{hoverPage.label}</b> - click the piece, then its lit square
     </span>
   ) : (
     <span>Play a white piece · follow the move it lights up</span>
@@ -178,18 +176,16 @@ export default function ChessApp() {
                 <Piece key={'d-' + i} glyph={d.glyph} color="black" pos={d.pos} faded={skills} />
               ))}
 
-              {/* black victims sit only on capture targets */}
+              {/* black victims sit only on capture targets — inert, so only white
+                  pieces react to hover; the capture is completed via TargetClick */}
               {PAGES.filter((p) => p.victim).map((p) => (
                 <Piece
                   key={'v-' + p.id}
-                  page={p}
                   glyph={p.victim as string}
                   color="black"
                   captured={movingId === p.id || route === p.id}
                   faded={skills}
                   pos={p.to}
-                  onClick={onVictimClick}
-                  onHover={(pg) => !busy && setHovered(pg ? pg.id : null)}
                 />
               ))}
 
