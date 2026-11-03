@@ -444,7 +444,8 @@ body::after {
   transition: transform .3s cubic-bezier(.22,.61,.36,1), border-color .3s, box-shadow .3s;
   text-decoration: none; color: inherit; display: block;
 }
-.proj:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 24px 50px -20px rgba(0,0,0,.7); }
+/* lift only on real links — non-deployed cards stay still */
+a.proj:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 24px 50px -20px rgba(0,0,0,.7); }
 .proj .thumb {
   aspect-ratio: 16/10; position: relative;
   background:

@@ -86,6 +86,7 @@ export interface ProjectItem {
   desc: string;
   tags: string[];
   href: string;
+  live: boolean; // deployed? only live projects are clickable
 }
 
 export const PROJECTS: ProjectItem[] = [
@@ -96,6 +97,7 @@ export const PROJECTS: ProjectItem[] = [
     desc: 'A full-stack gaming platform with real-time multiplayer features, built on a Node/Express backend with Socket.IO and a React front end.',
     tags: ['Node.js', 'Express', 'MongoDB', 'Socket.IO', 'React'],
     href: 'https://playground.radovanrasha.com',
+    live: false,
   },
   {
     glyph: GLYPH.rook,
@@ -104,6 +106,7 @@ export const PROJECTS: ProjectItem[] = [
     desc: 'A clean, responsive weather app pulling real-time data from multiple external APIs, with a focus on fast, legible UI.',
     tags: ['React', 'API Integration', 'CSS3'],
     href: 'https://weather.radovanrasha.com',
+    live: false,
   },
   {
     glyph: GLYPH.bishop,
@@ -112,6 +115,7 @@ export const PROJECTS: ProjectItem[] = [
     desc: 'A personal note-taking app with authentication and full CRUD, built on Express and MongoDB with an Ant Design interface.',
     tags: ['Express', 'MongoDB', 'Ant Design', 'React'],
     href: 'https://notes.radovanrasha.com',
+    live: false,
   },
 ];
 

@@ -117,33 +117,42 @@ export function ProjectsPage() {
         glyph={GLYPH.queen}
         eyebrow="The Queen · most range"
         title="Projects"
-        sub="The piece that moves in every direction - selected work, live on the web."
+        sub="The piece that moves in every direction - selected work."
       />
       <div className="proj-grid">
-        {PROJECTS.map((p, i) => (
-          <a
-            className={'proj reveal d' + Math.min(i + 1, 5)}
-            key={i}
-            href={p.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="thumb">
-              <span className="pc">{p.glyph}</span>
-              <span className="ph">[ {p.name.toLowerCase()} - live ↗ ]</span>
-            </div>
-            <div className="body">
-              <h3>{p.name}</h3>
-              <div className="tagline">{p.tagline}</div>
-              <p>{p.desc}</p>
-              <div className="tags">
-                {p.tags.map((t, j) => (
-                  <span key={j}>{t}</span>
-                ))}
+        {PROJECTS.map((p, i) => {
+          const cls = 'proj reveal d' + Math.min(i + 1, 5);
+          const inner = (
+            <>
+              <div className="thumb">
+                <span className="pc">{p.glyph}</span>
+                <span className="ph">
+                  [ {p.name.toLowerCase()} - {p.live ? 'live ↗' : 'coming soon'} ]
+                </span>
               </div>
+              <div className="body">
+                <h3>{p.name}</h3>
+                <div className="tagline">{p.tagline}</div>
+                <p>{p.desc}</p>
+                <div className="tags">
+                  {p.tags.map((t, j) => (
+                    <span key={j}>{t}</span>
+                  ))}
+                </div>
+              </div>
+            </>
+          );
+          // only deployed projects are links; the rest are plain cards
+          return p.live ? (
+            <a className={cls} key={i} href={p.href} target="_blank" rel="noopener noreferrer">
+              {inner}
+            </a>
+          ) : (
+            <div className={cls} key={i}>
+              {inner}
             </div>
-          </a>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

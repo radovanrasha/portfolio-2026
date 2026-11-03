@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, type ComponentType } from 'react';
+import { useState, useEffect, useRef, type ComponentType } from 'react';
 import {
   PAGES,
   DECOR,
@@ -44,6 +44,11 @@ const MOVE_MS = 560; // glide
 
 function pageById(id: PageId | null): PageDef | null {
   return PAGES.find((p) => p.id === id) || null;
+}
+
+// '#about' -> 'about' (only known section ids)
+function pageFromHash(hash: string): PageId | null {
+  return pageById(hash.replace(/^#/, '') as PageId)?.id ?? null;
 }
 
 export default function ChessApp() {
@@ -120,6 +125,50 @@ export default function ChessApp() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [route, skills]);
+
+  // ---- browser history: each open section is a '#id' entry, so the browser's
+  // Back button returns to the board instead of leaving the site.
+  const pushedRef = useRef(false); // did *we* push the current '#id' entry?
+  const [urlReady, setUrlReady] = useState(false);
+
+  // state <- URL: on load (deep links like /#projects) and on Back/Forward
+  useEffect(() => {
+    const applyHash = () => {
+      const id = pageFromHash(window.location.hash);
+      setSelected(null);
+      setMovingId(null);
+      setHovered(null);
+      setSkills(id === 'skills');
+      setRoute(id && id !== 'skills' ? id : null);
+      if (!id) pushedRef.current = false;
+      setUrlReady(true);
+    };
+    applyHash();
+    window.addEventListener('popstate', applyHash);
+    return () => window.removeEventListener('popstate', applyHash);
+  }, []);
+
+  // URL <- state: opening from the board pushes; switching sections replaces;
+  // closing pops our own entry (or just clears the hash on a deep link).
+  useEffect(() => {
+    // until the URL has been read, state is the SSR default — don't wipe a deep link's hash
+    if (!urlReady) return;
+    const want = route ? '#' + route : skills ? '#skills' : '';
+    const cur = window.location.hash;
+    if (want === cur) return;
+    const base = window.location.pathname + window.location.search;
+    if (want && !cur) {
+      window.history.pushState(null, '', want);
+      pushedRef.current = true;
+    } else if (want) {
+      window.history.replaceState(null, '', want);
+    } else if (pushedRef.current) {
+      pushedRef.current = false;
+      window.history.back();
+    } else {
+      window.history.replaceState(null, '', base);
+    }
+  }, [route, skills, urlReady]);
 
   // Skills piece stays on its target square while the skills view is open.
   const posOf = (page: PageDef) =>

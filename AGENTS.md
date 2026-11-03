@@ -16,7 +16,9 @@ folder's `styles.css` + `screenshots/` as the source of truth.
 
 - The whole experience is one client component tree mounted at `/` — there are **no**
   per-section routes (`/about` etc. were removed). Sections open as a fixed `.overlay`
-  on top of the board, driven by React state (`route`), not navigation.
+  on top of the board, driven by React state (`route`), not navigation. The open section
+  is mirrored into the URL hash (`/#about`, `/#skills`, …) via `history.pushState`, so the
+  browser Back button closes it and `/#id` deep links open it directly.
 - `src/components/chess/ChessApp.tsx` — orchestrator: move flow, selection, the page
   overlay, the right-side legend, Esc/Arrow keyboard handling.
 - `src/components/chess/BoardParts.tsx` — `Squares`, `Piece`, `TargetHint`, `OriginGlow`,

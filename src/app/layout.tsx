@@ -20,10 +20,26 @@ const jetbrains = JetBrains_Mono({
   weight: ['400', '500', '600'],
 });
 
+const title = 'Radovan Ivanović - Full-Stack Developer';
+const description =
+  'Full-stack JavaScript developer. A portfolio you play like a game of chess - make your move.';
+
+// Absolute base for og:image etc. — link previews need full URLs.
+// Override with SITE_URL (e.g. for staging) at build time.
+const siteUrl = process.env.SITE_URL || 'https://radovanrasha.com';
+
 export const metadata: Metadata = {
-  title: 'Radovan Ivanović - Full-Stack Developer',
-  description:
-    'Full-stack JavaScript developer. A portfolio you play like a game of chess - make your move.',
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  openGraph: {
+    type: 'website',
+    url: '/',
+    siteName: 'Radovan Ivanović',
+    title,
+    description,
+  },
+  twitter: { card: 'summary_large_image', title, description },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
