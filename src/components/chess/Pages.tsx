@@ -119,13 +119,18 @@ export function ProjectsPage() {
         title="Projects"
         sub="The piece that moves in every direction - selected work."
       />
-      <div className="proj-grid">
+      <div className={'proj-grid' + (PROJECTS.length === 1 ? ' single' : '')}>
         {PROJECTS.map((p, i) => {
           const cls = 'proj reveal d' + Math.min(i + 1, 5);
           const inner = (
             <>
-              <div className="thumb">
+              <div className={'thumb' + (p.icon ? ' has-icon' : '')}>
                 <span className="pc">{p.glyph}</span>
+                {p.icon && (
+                  <svg className="proj-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d={HOBBY_ICONS[p.icon]} />
+                  </svg>
+                )}
                 <span className="ph">
                   [ {p.name.toLowerCase()} - {p.live ? 'live ↗' : 'coming soon'} ]
                 </span>

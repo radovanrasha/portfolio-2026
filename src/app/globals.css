@@ -453,6 +453,22 @@ a.proj:hover { transform: translateY(-6px); border-color: var(--accent); box-sha
     color-mix(in srgb, var(--bg) 70%, #000);
   display: grid; place-items: center; border-bottom: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
 }
+/* a lone project sits centred instead of in half of a two-column grid */
+.proj-grid.single { grid-template-columns: minmax(0, 620px); justify-content: center; }
+.proj .thumb { gap: 14px; align-content: center; }
+/* cards with an icon swap the placeholder stripes for a soft glow */
+.proj .thumb.has-icon {
+  background:
+    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--accent) 22%, transparent) 0, transparent 55%),
+    linear-gradient(160deg, color-mix(in srgb, var(--bg2) 85%, #000), color-mix(in srgb, var(--bg) 70%, #000));
+}
+.proj .proj-icon {
+  width: 120px; height: 120px; fill: color-mix(in srgb, var(--accent) 75%, #fff);
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.55));
+  transition: transform .3s cubic-bezier(.22,.61,.36,1);
+}
+@media (max-width: 760px){ .proj .proj-icon { width: 88px; height: 88px; } }
+a.proj:hover .proj-icon { transform: scale(1.06) rotate(-6deg); }
 .proj .thumb .ph { font-family: var(--mono); font-size: 10px; letter-spacing:.2em; color: var(--muted); text-transform: uppercase; }
 .proj .thumb .pc { position:absolute; top:12px; left:12px; font-size: 22px; color: color-mix(in srgb,var(--accent) 80%, #fff); }
 .proj .body { padding: 20px 22px 24px; }
